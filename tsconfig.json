@@ -1,0 +1,19 @@
+{
+    "include": ["src/**/*.ts"],
+    "files": ["shims.d.ts"],
+    "compilerOptions": {
+        "outDir": "dist",
+        "sourceMap": true,
+        "strict": true,
+        "noImplicitReturns": false,
+        "noImplicitAny": false,
+        "module": "es2015",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "moduleResolution": "node",
+        "target": "es5",
+        "jsx": "react-native",
+        "lib": ["es2016", "dom"],
+        "allowSyntheticDefaultImports": true
+    }
+}
