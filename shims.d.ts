@@ -1,7 +1,7 @@
-declare global {
-    namespace m {
-        import Mithril from 'mithril';
+import { Static } from 'mithril';
 
-        export default Mithril;
-    }
+import 'classnames';
+
+declare global {
+    const m: Static;
 }
