@@ -22,6 +22,18 @@ module.exports = function(options = {}) {
     module: {
       rules: [
         {
+          enforce: 'pre',
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'eslint-loader',
+            options: {
+              cache: true,
+              fix: true,
+            },
+          }
+        },
+        {
           test: /\.js$/,
           exclude: /node_modules/,
           use: {

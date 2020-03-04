@@ -1,0 +1,18 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb"
+  ],
+  "rules": {
+    "import/no-unresolved": 0,
+    "import/no-extraneous-dependencies": 0
+  },
+  "globals": {
+    "app": "readonly",
+    "m": "readonly"
+  },
+  "env": {
+    "jquery": true,
+    "browser": true
+  }
+}
