@@ -10,8 +10,10 @@ module.exports = function(options = {}) {
       const entries = {};
 
       for (const app of ['forum', 'admin']) {
-        const file = path.resolve(process.cwd(), app+'.js');
-        if (fs.existsSync(file)) {
+        const name = path.resolve(process.cwd(), app);
+        let file;
+
+        if (fs.existsSync(file = `${name}.js`) || fs.existsSync(file = `${name}.ts`)) {
           entries[app] = file;
         }
       }
@@ -19,23 +21,29 @@ module.exports = function(options = {}) {
       return entries;
     }(),
 
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.json'],
+    },
+
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.(tsx?|js)$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
             options: {
               presets: [
                 ['@babel/preset-env', {modules: false, loose: true}],
-                ['@babel/preset-react']
+                '@babel/preset-react',
+                '@babel/preset-typescript',
               ],
               plugins: [
                 ['@babel/plugin-transform-runtime', {useESModules: true}],
-                ['@babel/plugin-proposal-class-properties'],
                 ['@babel/plugin-transform-react-jsx', {pragma: 'm'}],
-                ['@babel/plugin-transform-object-assign']
+                '@babel/plugin-proposal-class-properties',
+                '@babel/plugin-transform-object-assign',
+                '@babel/plugin-syntax-dynamic-import',
               ]
             }
           }

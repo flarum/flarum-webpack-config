@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "allowUmdGlobalAccess": true,
+        "noImplicitReturns": false,
+        "noImplicitAny": false,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        
+        "jsx": "preserve",
+        "lib": ["es2015", "es2017", "dom"],
+    }
+}
