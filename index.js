@@ -78,6 +78,22 @@ module.exports = function(options = {}) {
           return callback(null, 'root flarum.core.compat[\'' + matches[1] + '\']');
         }
         callback();
+      },
+
+      // Support importing extensions
+      function(context, request, callback) {
+        let matches = /^ext:([^\/]+)\/(?:flarum-(?:ext-)?)?([^\/]+)(?:\/(.+))?$/.exec(request);
+
+        if (matches) {
+          const id = `${matches[1]}-${matches[2]}`;
+          const path = [id, ...(matches[3] || '').split('/')]
+            .map(p => `['${p}']`)
+            .join('');
+
+          return callback(null, 'root flarum.extensions' + path)
+        }
+
+        callback();
       }
     ],
 
