@@ -22,14 +22,15 @@ module.exports = function(options = {}) {
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.(ts|js)$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
             options: {
               presets: [
                 ['@babel/preset-env', {modules: false, loose: true}],
-                ['@babel/preset-react']
+                ['@babel/preset-react'],
+                ["@babel/preset-typescript"],
               ],
               plugins: [
                 ['@babel/plugin-transform-runtime', {useESModules: true}],
