@@ -3,7 +3,7 @@
   "version": "0.1.0-beta.10",
   "description": "Webpack config for Flarum JavaScript compilation.",
   "main": "index.js",
-  "author": "Toby Zerner",
+  "author": "Flarum Team",
   "license": "MIT",
   "peerDependencies": {
     "webpack": "^4.0.0"
