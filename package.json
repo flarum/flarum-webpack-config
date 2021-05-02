@@ -18,5 +18,8 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "babel-loader": "^8.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
   }
 }
