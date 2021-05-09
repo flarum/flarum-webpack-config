@@ -42,7 +42,7 @@ module.exports = function (options = {}) {
                 ['@babel/plugin-proposal-private-methods', { loose: true }],
                 ['@babel/plugin-transform-react-jsx', {
                   pragma: 'm',
-                  pragmaFrag: 'm.fragment',
+                  pragmaFrag: "'['",
                   useBuiltIns: true,
                 }],
               ],
