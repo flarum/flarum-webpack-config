@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const webpack = require('webpack');
 
-module.exports = function (options = {}) {
+export default function (options = {}) {
   return {
     // Set up entry points for each of the forum + admin apps, but only
     // if they exist.
@@ -23,27 +22,32 @@ module.exports = function (options = {}) {
       rules: [
         {
           test: /\.js$/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                [
-                  '@babel/preset-env',
-                  {
-                    modules: false,
-                    loose: true,
-                  },
-                ],
-                ['@babel/preset-react'],
-              ],
-              plugins: [
-                ['@babel/plugin-transform-runtime', { useESModules: true }],
-                ['@babel/plugin-proposal-class-properties', { loose: true }],
-                ['@babel/plugin-proposal-private-methods', { loose: true }],
-                ['@babel/plugin-transform-react-jsx', { pragma: 'm' }],
-              ],
+          use: [
+            {
+              loader: path.resolve(__dirname, './autoExportLoader.js'),
             },
-          },
+            {
+              loader: 'babel-loader',
+              options: {
+                presets: [
+                  [
+                    '@babel/preset-env',
+                    {
+                      modules: false,
+                      loose: true,
+                    },
+                  ],
+                  ['@babel/preset-react'],
+                ],
+                plugins: [
+                  ['@babel/plugin-transform-runtime', { useESModules: true }],
+                  ['@babel/plugin-proposal-class-properties', { loose: true }],
+                  ['@babel/plugin-proposal-private-methods', { loose: true }],
+                  ['@babel/plugin-transform-react-jsx', { pragma: 'm' }],
+                ],
+              },
+            }
+          ]
         },
       ],
     },
@@ -57,31 +61,24 @@ module.exports = function (options = {}) {
 
     externals: [
       {
-        '@flarum/core/forum': 'flarum.core',
-        '@flarum/core/admin': 'flarum.core',
         jquery: 'jQuery',
       },
 
-      (function () {
-        const externals = {};
-
-        if (options.useExtensions) {
-          for (const extension of options.useExtensions) {
-            externals['@' + extension] = externals['@' + extension + '/forum'] = externals['@' + extension + '/admin'] =
-              "flarum.extensions['" + extension + "']";
-          }
-        }
-
-        return externals;
-      })(),
-
-      // Support importing old-style core modules.
-      function (context, request, callback) {
+      function ({ context, request }, cb) {
+        let namespace;
+        let id;
         let matches;
         if ((matches = /^flarum\/(.+)$/.exec(request))) {
-          return callback(null, "root flarum.core.compat['" + matches[1] + "']");
+          namespace = 'core';
+          id = matches[1];
+        } else if ((matches = /^ext:([^\/]+)\/(?:flarum-(?:ext-)?)?([^\/]+)(?:\/(.+))?$/.exec(request))) {
+          namespace = `${matches[1]}-${matches[2]}`;
+          id = matches[3];
+        } else {
+          return cb();
         }
-        callback();
+
+        return cb(null, `window.flreg.get('${namespace}', '${id}')`);
       },
     ],
 
