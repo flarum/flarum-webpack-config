@@ -32,7 +32,7 @@ const plugins = [];
 /**
  * Yarn Plug'n'Play means that dependency hoisting doesn't work like it normally
  * would with the standard `node_modules` configuration. This is by design, as
- * hoisting is unpredicted.
+ * hoisting is unpredictable.
  *
  * This plugin works around this by ensuring references to `@babel/runtime` (which
  * is required at build-time from an extension/core's scope) are redirected to the
